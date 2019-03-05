@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>MotionJS</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="motion.css">
+    <!--<script type="text/javascript" src="motion.js"></script>-->
+</head>
+<body>
+<div class="interaction-wall">
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="shake"></span>
+        <span class="code-block">"shake"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="fade"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+
+    <script>
+        // 즉시 실행 함수
+        const motion = (function() {
+            return {
+                init : function () {
+
+                },
+                option : {
+                    /*type : 'fade',
+                    timing : 'ease-in',
+                    duration : '0.5',
+                    loop : 0*/
+                },
+                el : function () {
+                    const motionEl = document.querySelectorAll('.motion-click');
+
+                    for (i = 0; i < motionEl.length; i++) {
+                        option.type  = motionEl[i].getAttribute('motion-type');
+                        //console.log(i, motionEl[0]);
+                        return option + ':::::::::::::' + i;
+                    }
+                }
+            }
+        })();
+
+        /*document.querySelector('a').addEventListener('click', evt => {
+            // 이벤트 처리 ...
+        })*/
+
+        /*document.getElementsByClassName('motion-click').onclick = function(){
+            console.log('start');
+            motion.init('3');
+        }*/
+    </script>
+</div>
+</body>
+</html>
