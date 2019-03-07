@@ -9,7 +9,7 @@ const motion = (function() {
             Array.from(clickEl).forEach(function (target, index, array) {
                 target.addEventListener('click', function(event) {
                     motion.el(event, target);
-                    console.log(target, index, array);
+                    /*console.log(target, index, array);*/
                 });
             });
         },
@@ -82,5 +82,3 @@ const motion = (function() {
         }
     }
 })();
-
-motion.init();
