@@ -5,53 +5,59 @@
     <title>MotionJS</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link rel="stylesheet" type="text/css" href="motion.css">
-    <!--<script type="text/javascript" src="motion.js"></script>-->
+    <script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=default%2CArray.from%2CArray.prototype.forEach"></script>
+    <script type="text/javascript" src="motion.js"></script>
 </head>
 <body>
 <div class="interaction-wall">
     <div class="interaction-brick">
-        <span class="interaction-box motion-click" motion-type="shake"></span>
+        <span class="interaction-box motion-click" motion-type="this, shake"></span>
         <span class="code-block">"shake"</span>
     </div>
     <div class="interaction-brick">
-        <span class="interaction-box motion-click" motion-type="fade"></span>
+        <span class="interaction-box motion-click" motion-type="this, fade"></span>
         <span class="code-block">"fade"</span>
     </div>
-
-    <script>
-        // 즉시 실행 함수
-        const motion = (function() {
-            return {
-                init : function () {
-
-                },
-                option : {
-                    /*type : 'fade',
-                    timing : 'ease-in',
-                    duration : '0.5',
-                    loop : 0*/
-                },
-                el : function () {
-                    const motionEl = document.querySelectorAll('.motion-click');
-
-                    for (i = 0; i < motionEl.length; i++) {
-                        option.type  = motionEl[i].getAttribute('motion-type');
-                        //console.log(i, motionEl[0]);
-                        return option + ':::::::::::::' + i;
-                    }
-                }
-            }
-        })();
-
-        /*document.querySelector('a').addEventListener('click', evt => {
-            // 이벤트 처리 ...
-        })*/
-
-        /*document.getElementsByClassName('motion-click').onclick = function(){
-            console.log('start');
-            motion.init('3');
-        }*/
-    </script>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, jelly"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, bounce"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, tada"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, groove"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, swing"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, squeeze"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, flicker"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, jerk"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, blink"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, pop"></span>
+        <span class="code-block">"fade"</span>
+    </div>
 </div>
 </body>
 </html>
