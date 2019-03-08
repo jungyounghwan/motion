@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>MotionJS</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="motion.css">
+    <script type="text/javascript" src="https://polyfill.io/v3/polyfill.min.js?features=default%2CArray.from%2CArray.prototype.forEach"></script>
+    <!--<script type="text/javascript" src="motion.js"></script>-->
+    <script type="text/javascript" src="fx.js"></script>
+</head>
+<body>
+<div class="interaction-wall">
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click _motionFade"></span>
+        <span class="code-block">"fade-fx"</span>
+        <script>
+            var targetEl = document.querySelector('._motionFade');
+            targetEl.onclick = function() {
+                FX.fade(targetEl, 1000);
+            };
+        </script>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, shake"></span>
+        <span class="code-block">"shake"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, fade"></span>
+        <span class="code-block">"fade"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, jelly"></span>
+        <span class="code-block">"jelly"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, bounce"></span>
+        <span class="code-block">"bounce"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, tada"></span>
+        <span class="code-block">"tada"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, groove"></span>
+        <span class="code-block">"groove"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, swing"></span>
+        <span class="code-block">"swing"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, squeeze"></span>
+        <span class="code-block">"squeeze"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, flicker"></span>
+        <span class="code-block">"flicker"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, jerk"></span>
+        <span class="code-block">"jerk"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, blink"></span>
+        <span class="code-block">"blink"</span>
+    </div>
+    <div class="interaction-brick">
+        <span class="interaction-box motion-click" motion-type="this, pop"></span>
+        <span class="code-block">"pop"</span>
+    </div>
+</div>
+
+<script>
+    /*motion.init();*/
+</script>
+</body>
+</html>
