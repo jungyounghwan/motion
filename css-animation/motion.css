@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 .motion-linear {animation-timing-function:cubic-bezier(0, 0, 1, 1)}
 .motion-ease-in {animation-timing-function:cubic-bezier(.4, 0, 1, 1)}
 .motion-ease-out {animation-timing-function:cubic-bezier(0, 0, .2, 1)}

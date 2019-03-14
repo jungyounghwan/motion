@@ -1,8 +1,32 @@
 /* requestAnimationFrame Polyfill */
-/* Polyfill.io ¿¡¼­ Á¦°øÇÏÁö ¾ÊÀ½ */
+/* Polyfill.io ì—ì„œ ì œê³µí•˜ì§€ ì•ŠìŒ */
 !function(){for(var n=0,i=["ms","moz","webkit","o"],e=0;e<i.length&&!window.requestAnimationFrame;++e)window.requestAnimationFrame=window[i[e]+"RequestAnimationFrame"],window.cancelAnimationFrame=window[i[e]+"CancelAnimationFrame"]||window[i[e]+"CancelRequestAnimationFrame"];window.requestAnimationFrame||(window.requestAnimationFrame=function(i,e){var a=(new Date).getTime(),o=Math.max(0,16-(a-n)),t=window.setTimeout(function(){i(a+o)},o);return n=a+o,t}),window.cancelAnimationFrame||(window.cancelAnimationFrame=function(n){clearTimeout(n)})}();
 
 const FX = {
+    init : function () {
+        const clickEl = document.querySelectorAll('.motion-click');
+
+        Array.from(clickEl).forEach(function (target) {
+            target.addEventListener('click', function(e) {
+                e.preventDefault();
+
+                const motionData = target.getAttribute('data-motionJS');
+                const option = new Array(motionData.split(', '));
+
+                eval('FX.' + option[0] + '(target, 1000)');
+                /*if (option[1] != undefined) {
+                    // ì˜µì…˜ìœ¼ë¡œ í•¨ìˆ˜ í˜¸ì¶œ (duration custom)
+                    console.log('1');
+                    eval('FX.' + option[0] + '(target, ' + option[1] + ')');
+                } else {
+                    // ì˜µì…˜ìœ¼ë¡œ í•¨ìˆ˜ í˜¸ì¶œ (default)
+                    console.log('2');
+                    eval('FX.' + option[0] + '(target, 1000)');
+                }*/
+            });
+        });
+    },
+
     animate : function ({timing, draw, duration}) {
 
         let start = performance.now();

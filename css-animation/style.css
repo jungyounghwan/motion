@@ -1,0 +1,7 @@
+@charset "utf-8";
+
+.code-block {margin:3px;padding:1px 7px 2px;border-radius:4px;font-family:"Roboto Mono", monospace;font-size:16px;font-weight:700;word-break:break-all;background:rgba(0, 0, 0, 0.27)}
+.interaction-wall {margin:40px auto 0;width:650px;font-size:0}
+.interaction-brick {display:inline-block;margin:0 auto 35px;padding:0;width:25%;text-align:center;vertical-align:top}
+.interaction-box {display:block;margin:0 auto 20px;width:75px;height:75px;border-radius:5px;background-image:-moz-linear-gradient(135deg, #202aff 0, #bcc5ff 100%);background-image:-webkit-linear-gradient(135deg, #202aff 0, #bcc5ff 100%);background-image:-ms-linear-gradient(135deg, #202aff 0, #bcc5ff 100%);box-shadow:0 15px 23px 0 rgba(91, 80, 255, 0.35), 0 5px 15px 0 rgba(90, 41, 179, 0.2);cursor:pointer}
+.interaction-brick .code-block {padding:3px 5px 4px;color:#220a41;word-break:break-all;background:rgba(0, 0, 0, 0.08)}
