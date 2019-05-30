@@ -1,0 +1,95 @@
+@charset "utf-8";
+
+.motion-linear {animation-timing-function:cubic-bezier(0, 0, 1, 1)}
+.motion-ease-in {animation-timing-function:cubic-bezier(.4, 0, 1, 1)}
+.motion-ease-out {animation-timing-function:cubic-bezier(0, 0, .2, 1)}
+.motion-ease-in-out {animation-timing-function:cubic-bezier(.4, 0, .2, 1)}
+.motion-fill-forwards {animation-fill-mode: forwards}
+
+.motion-fadein {animation-name: ani-fadein;}
+@keyframes ani-fadein {
+    0% {opacity:0}
+    100% {opacity:1}
+}
+
+.motion-fadeout {animation-name: ani-fadeout;}
+@keyframes ani-fadeout {
+    0% {opacity:1}
+    100% {opacity:0}
+}
+
+.motion-shake {animation-name: ani-shake}
+@keyframes ani-shake {
+    0%, 100% {transform: translateX(0)}
+    15% {transform: translateX(-3px)}
+    25%, 65% {transform: translateX(3px)}
+    45%, 85% {transform: translateX(-2px)}
+}
+
+.motion-jelly {animation-name: ani-jelly}
+@keyframes ani-jelly {
+    0%, 100% {transform:scaleX(1)}
+    20% {transform:scaleX(.9)}
+    50% {transform:scaleX(1.25)}
+    85% {transform:scaleX(.8)}
+}
+
+.motion-bounce {animation-name: ani-bounce}
+@keyframes ani-bounce {
+    0%, 100% {transform: translate(0, 0)}
+    10% {transform: translate(0, 2px)}
+    50% {transform: translate(0, -7px)}
+    90% {transform: translate(0, 4px)}
+}
+
+.motion-tada {animation-name: ani-tada}
+@keyframes ani-tada {
+    0%, 100% {transform: scale(1)}
+    20% {transform: scale(1.1) rotate(3deg)}
+    40% {transform: scale(.97)}
+    60% {transform: scale(.99) rotate(-3deg)}
+    80% {transform: scale(1.05)}
+}
+
+.motion-groove {animation-name: ani-groove}
+@keyframes ani-groove {
+    0%, 100% {transform: skewY(0) rotate(0)}
+    15% {transform: skewY(-10deg) rotateZ(8deg)}
+    35% {transform: skewY(10deg) rotateZ(-8deg)}
+    55% {transform: skewY(-6deg) rotateZ(-4deg)}
+    85% {transform: skewY(6deg) rotateZ(4deg)}
+}
+
+.motion-swing {animation-name: ani-swing;transform-origin: center top}
+@keyframes ani-swing {
+    0%, 100% {transform: rotateZ(0)}
+    20% {transform: rotateZ(15deg)}
+    40% {transform: rotateZ(-15deg)}
+    60% {transform: rotateZ(7deg)}
+    80% {transform: rotateZ(-7deg)}
+}
+
+.motion-squeeze {animation-name: ani-squeeze}
+@keyframes ani-squeeze {
+    0%, 100% {transform: scaleY(1)}
+    15%, 85% {transform: scaleY(.95)}
+    30% {transform: scaleY(.9)}
+    55% {transform: scaleY(.75)}
+    70% {transform: scaleY(1.3)}
+}
+
+.motion-blink {animation-name: ani-blink}
+@keyframes ani-blink {
+    0%, 100% {transform: scale(1)}
+    25% {transform: scale(.95)}
+    50% {transform: scale(.97)}
+    75% {transform: scale(.93)}
+}
+
+.motion-pop {animation-name: ani-pop}
+@keyframes ani-pop {
+    0%, 100% {transform: scaleX(1) scaleY(1)}
+    20%, 45% {transform: scaleX(1.35) scaleY(.1)}
+    65% {transform: scaleX(.8) scaleY(1.7)}
+    80% {transform: scaleX(.6) scaleY(.85)}
+}
