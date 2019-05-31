@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>MotionJS</title>
+    <style type="text/css">
+        table.motion-wall {margin:0 auto;width:80%;min-width:820px;font-family:"Malgun Gothic",dotum,gulim,sans-serif;border:1px solid #f1f1f1;}
+        table.motion-wall td {padding:20px;text-align:center;vertical-align:top}
+        table.motion-wall {position:relative;width:960px}
+        table.motion-wall {table-layout:fixed}
+        table.motion-wall caption {visibility:hidden;overflow:hidden;width:0;height:0;font-size:0;line-height:0}
+        table.motion-wall th {padding:5px 0 7px;border-top:1px solid #ddd;border-bottom:1px solid #ebebeb;color:#999;font-size:12px;line-height:18px;text-align:center;background-color:#f1f1f1}
+        table.motion-wall th {color:#999;line-height:24px}
+        table.motion-wall td {text-align:center;padding:17px 20px 18px;border-bottom:1px solid #ebebeb;color:#444;font-size:13px;line-height:24px;border-right:1px solid #f1f1f1}
+        table.motion-wall td.motion-options {text-align:left;}
+        .motion-box {display:inline-block;width:75px;height:75px;line-height:75px;text-align:center;color:#fff;border-radius:5px;background:#4876EF;box-shadow:0 15px 23px 0 rgba(91, 80, 255, 0.35), 0 5px 15px 0 rgba(90, 41, 179, 0.2);cursor:pointer}
+        .motion-fadein-css {opacity:0}
+    </style>
+</head>
+<body>
+
+<table class="motion-wall">
+    <thead>
+        <tr>
+            <th scope="col">&nbsp;</th>
+            <th scope="col" colspan="2">css-motion</th>
+            <th scope="col" colspan="2">js-motion</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">fadein</th>
+            <td>
+                <span class="motion-box motion-fadein-css">fadein</span>
+            </td>
+            <td class="motion-options">
+                mode : 'css',<br>
+                handle : 'mouseover'<br><br>
+                <button type="button" class="btn-motion-fadein-css">실행1</button>
+            </td>
+            <!--<td>
+                <span class="motion-box motion-fadein">fadein</span>
+            </td>
+            <td class="motion-options">
+                handle : 'mouseover'<br><br>
+                <button type="button" class="btn-motion-fadein">실행</button>
+            </td>-->
+        </tr>
+    </tbody>
+</table>
+<script src="../dist/app.js"></script>
+<script>
+    EntryPoint.Motion('.motion-fadein-css', {
+        mode : 'css',
+        type : 'fadein',
+        handle : 'click',
+        btnTarget : '.btn-motion-fadein-css',
+        aniName : '.motion-fadein {animation-name: ani-fadein;}',
+        keyframes : '@keyframes ani-fadein { 0% {opacity:0} 100% {opacity:1} }',
+    });
+</script>
+</body>
+</html>
