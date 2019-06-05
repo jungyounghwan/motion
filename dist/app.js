@@ -104,41 +104,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./lib/easing/easing_v1.1.js":
-/*!***********************************!*\
-  !*** ./lib/easing/easing_v1.1.js ***!
-  \***********************************/
-/*! exports provided: easeIn, easeOut, easeInOut, easeLinear */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "easeIn", function() { return easeIn; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "easeOut", function() { return easeOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "easeInOut", function() { return easeInOut; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "easeLinear", function() { return easeLinear; });
-// no easing, no acceleration
-var easeIn = function easeIn(p) {
-  return function (t) {
-    return Math.pow(t, p);
-  };
-};
-var easeOut = function easeOut(p) {
-  return function (t) {
-    return 1 - Math.abs(Math.pow(t - 1, p));
-  };
-};
-var easeInOut = function easeInOut(p) {
-  return function (t) {
-    return t < .5 ? easeIn(p)(t * 2) / 2 : easeOut(p)(t * 2 - 1) / 2 + 0.5;
-  };
-};
-var easeLinear = function easeLinear(t) {
-  return easeInOut(1)(t);
-};
-
-/***/ }),
-
 /***/ "./lib/helper/helper.js":
 /*!******************************!*\
   !*** ./lib/helper/helper.js ***!
@@ -219,8 +184,6 @@ var eventTrigger = function eventTrigger(el, eventType, detail) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helper_helper_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helper/helper.js */ "./lib/helper/helper.js");
-/* harmony import */ var _easing_easing_v1_1_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../easing/easing_v1.1.js */ "./lib/easing/easing_v1.1.js");
-
 
 
 var Motion = function Motion() {
@@ -235,10 +198,11 @@ var Motion = function Motion() {
     /* 기본 설정 시작 */
     'mode': 'js',
     'type': null,
-    'easing': 'easeLinear',
-    'duration': 1000,
+    'time': 1000,
     'aniName': null,
     'keyframes': null,
+    'keyframesArr': [],
+    'duration': 1000,
     'handle': 'click',
     'loop': false,
     'delay': 500,
@@ -248,71 +212,75 @@ var Motion = function Motion() {
     /* 기본 설정 끝 */
 
   });
-  var css = window.document.styleSheets[0];
-  css.insertRule('.motion-fadein {animation-name: ani-fadein;}', 0);
-  css.insertRule('@keyframes ani-fadein { 0% {opacity:0} 100% {opacity:1} }', css.cssRules.length);
-  css.insertRule('table.motion-wall td.motion-options {color:red;}', 0);
-  /*css.insertRule(options.aniName, css.cssRules.length);
-   css.insertRule(options.keyframes, css.cssRules.length);*/
+  /* IE 버전 체크 */
 
-  console.log(css);
+  function get_info_of_IE() {
+    var word;
+    var agent = navigator.userAgent.toLowerCase();
+    var info = {
+      name: "N/A",
+      version: -1
+    };
+
+    if (navigator.appName == "Microsoft Internet Explorer") {
+      // IE old version ( IE 10 or Lower )
+      word = "msie ";
+    } else if (agent.search("trident") > -1) word = "trident/.*rv:"; // IE 11
+    else if (agent.search("edge/") > -1) word = "edge/"; // Microsoft Edge
+      else {
+          return info; // etc. ( If it's not IE or Edge )
+        }
+
+    var reg = new RegExp(word + "([0-9]{1,})(\\.{0,}[0-9]{0,1})");
+
+    if (reg.exec(agent) != null) {
+      info.version = parseFloat(RegExp.$1 + RegExp.$2);
+      info.name = word == "edge/" ? "Edge" : "IE";
+    }
+
+    return info;
+  }
   /* 공통으로 사용할 부분 시작 */
   // animate 그리기 공통
 
+
   var animate = function animate(el, func) {
-    var start = performance.now();
+    var num = 0;
+    var arrNum = 0;
+    var start = null;
+    var sec = options.time / 1000;
     requestAnimationFrame(function animate(time) {
-      var timing = options.easing;
-      var timeFraction = (time - start) / options.duration; // timeFraction = 0 ~ 1
+      if (!start) start = time;
+      var timeFraction = Math.abs(time - start) / options.time;
+      if (timeFraction > sec) timeFraction = sec;
 
-      if (timeFraction > 1) timeFraction = 1;
-      var progress = _easing_easing_v1_1_js__WEBPACK_IMPORTED_MODULE_1__[timing](timeFraction, options.distance); // easing 에 의한 계산된 값
+      function timing(timeFraction) {
+        var perNum = Number(options.keyframesArr[0][arrNum + 1]);
+        var currNum = Number(options.keyframesArr[1][arrNum][1]);
+        var nextNum = Number(options.keyframesArr[1][arrNum + 1][1]);
+        var section = sec * (perNum / 100);
 
-      func(progress); // css 그리기
+        if (section < timeFraction) {
+          arrNum++;
+        }
 
-      if (typeof options.callback === 'function') {
-        options.callback(progress);
+        return (nextNum - currNum) * timeFraction + currNum;
       }
 
-      if (timeFraction < 1) {
+      ;
+      var style = 'opacity:' + timing(timeFraction / sec);
+      console.log(timeFraction, timing(timeFraction));
+      func(style);
+
+      if (timeFraction < sec) {
         requestAnimationFrame(animate);
-      } else {
-        if (options.styleReset === false) {
-          el.style.cssText = '';
-        }
-
-        if (options.loop) {
-          setTimeout(function () {
-            if (options.loop) {
-              motionType(el, options.type);
-            }
-          }, options.delay);
-        }
-      }
+        num++; //console.log(time, start, timeFraction, num);
+      } else {}
     });
-  }; // crossBrowser
-
-
-  var crossStyleTransform = function crossStyleTransform(el, crossStyle) {
-    var agent = navigator.userAgent.toLowerCase();
-
-    if (navigator.appName === 'Netscape' && navigator.userAgent.search('Trident') !== -1 || agent.indexOf("msie") !== -1) {
-      return el.style.msTransform = crossStyle;
-    } else if (agent.indexOf("chrome") !== -1) {
-      return el.style.webkitTransform = crossStyle;
-    } else if (agent.indexOf("safari") !== -1) {
-      return el.style.webkitTransform = crossStyle;
-    } else if (agent.indexOf("firefox") !== -1) {
-      return el.style.mozTransform = crossStyle;
-    } else {
-      return el.style.transform = crossStyle;
-    }
   }; // css 모드 시작
 
 
   var goCssMotion = function goCssMotion(el) {
-    console.log('1');
-
     if (options.loop) {
       setInterval(function () {
         el.classList.add('motion-' + options.type);
@@ -332,135 +300,6 @@ var Motion = function Motion() {
         }
       }, options.delay);
     }
-  }; // js 모드 시작
-
-
-  var motionType = function motionType(el, name) {
-    switch (name) {
-      case 'fadein':
-        animate(el, function (progress) {
-          el.style.opacity = progress;
-        });
-        break;
-
-      case 'fadeout':
-        animate(el, function (progress) {
-          el.style.opacity = 1 - progress;
-        });
-        break;
-
-      case 'shake':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-          var drawItem = 'translate(' + progress + 'px, 0)';
-          crossStyleTransform(el, drawItem);
-        });
-        break;
-
-      case 'jelly':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-          var drawItem = 'scaleX(' + (1 - progress) + ')';
-          crossStyleTransform(el, drawItem);
-        });
-        break;
-
-      case 'bounce':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-          var drawItem = 'translate(0, ' + progress + 'px)';
-          crossStyleTransform(el, drawItem);
-        });
-        break;
-
-      case 'tada':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-          var drawItem = 'rotate(' + (1 - progress) + 'deg) scale(' + (1 + Math.abs(progress) / 50) + ')';
-          crossStyleTransform(el, drawItem);
-        });
-        break;
-
-      case 'groove':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-          var drawItem = 'skewY(' + progress * 1.5 + 'deg) rotateZ(' + -progress + 'deg)';
-          crossStyleTransform(el, drawItem);
-        });
-        break;
-
-      case 'swing':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-          el.style.transformOrigin = 'center top';
-          var drawItem = 'rotateZ(' + -progress + 'deg)';
-          crossStyleTransform(el, drawItem);
-        });
-        break;
-
-      case 'squeeze':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-
-          if (progress < .3) {
-            var drawItem = 'scaleY(' + Math.abs(1 - progress) + ')';
-            crossStyleTransform(el, drawItem);
-          } else {
-            var _drawItem = 'scaleY(' + (progress + .5) + ')';
-
-            crossStyleTransform(el, _drawItem);
-          }
-        });
-        break;
-
-      case 'blink':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-
-          if (progress < .25) {
-            var drawItem = 'scale(.95)';
-            crossStyleTransform(el, drawItem);
-          } else if (progress < .5) {
-            var _drawItem2 = 'scale(.97)';
-            crossStyleTransform(el, _drawItem2);
-          } else if (progress < .75) {
-            var _drawItem3 = 'scale(.93)';
-            crossStyleTransform(el, _drawItem3);
-          } else {
-            var _drawItem4 = 'scale(1)';
-            crossStyleTransform(el, _drawItem4);
-          }
-        });
-        break;
-
-      case 'pop':
-        animate(el, function (progress) {
-          el.style.position = 'relative';
-
-          if (progress < .20) {
-            var drawItem = 'scaleX(1.35) scaleY(.1)';
-            crossStyleTransform(el, drawItem);
-          } else if (progress < .45) {
-            var _drawItem5 = 'scaleX(1.35) scaleY(.1)';
-            crossStyleTransform(el, _drawItem5);
-          } else if (progress < .65) {
-            var _drawItem6 = 'scaleX(.8) scaleY(1.7)';
-            crossStyleTransform(el, _drawItem6);
-          } else if (progress < .80) {
-            var _drawItem7 = 'scaleX(.6) scaleY(.85)';
-            crossStyleTransform(el, _drawItem7);
-          } else {
-            var _drawItem8 = 'scale(1)';
-            crossStyleTransform(el, _drawItem8);
-          } //console.log(progress);
-
-        });
-        break;
-
-      default:
-        alert('선택하신 motion type 은 찾을 수 없습니다.');
-        break;
-    }
   };
 
   Array.from(targetNodes).forEach(exec);
@@ -475,36 +314,75 @@ var Motion = function Motion() {
      options : 사전정의 + 호출시 정의한 옵션 항목들
      dataContainer : 호출시 정의한 데이터셋
      */
-    if (options.mode === 'css') {
-      // CSS 모드
+    var ieCheck = get_info_of_IE();
+    var browserName = ieCheck.name;
+    var browserVersion = ieCheck.version;
+    var browserText = document.getElementById('browserText');
+    browserText.innerHTML = browserName + ' : ' + browserVersion;
+    var css = window.document.styleSheets[0];
+    css.insertRule(options.aniName, css.cssRules.length);
+    css.insertRule(options.keyframes, css.cssRules.length); //console.log(css);
+
+    var keyframeArrFn = function keyframeArrFn() {
+      var keyframesCut = options.keyframes.split(/[\{\}]/g);
+      keyframesCut.splice(0, 1);
+      keyframesCut.splice(keyframesCut.length - 2, 2);
+      console.log(keyframesCut);
+      options.keyframesArr[0] = [];
+      options.keyframesArr[1] = [];
+
+      for (var i = 0; i < keyframesCut.length; i++) {
+        var num = i % 2;
+
+        if (num === 0) {
+          var extraction = keyframesCut[i].replace(/[^0-9]/g, '');
+          options.keyframesArr[num].push(extraction);
+        } else {
+          var _extraction = keyframesCut[i].split(/[\:\(\)]/g);
+
+          options.keyframesArr[num].push(_extraction);
+        }
+      }
+
+      return options.keyframesArr;
+    };
+
+    keyframeArrFn();
+
+    if (browserName === 'IE' && browserVersion === 11) {
       if (options.loop === true) {
-        goCssMotion(el);
+        animate(el, function (progress) {
+          el.setAttribute('style', progress);
+        });
       } else {
         if (options.btnTarget !== null) {
           var targetBtn = document.querySelector(options.btnTarget);
           targetBtn.addEventListener(options.handle, function () {
-            goCssMotion(el);
+            animate(el, function (progress) {
+              el.setAttribute('style', progress);
+            });
           });
         } else {
           el.addEventListener(options.handle, function () {
-            goCssMotion(el);
+            animate(el, function (progress) {
+              el.setAttribute('style', progress);
+            });
           });
         }
       }
     } else {
-      // JS 모드
       if (options.loop === true) {
-        motionType(el, options.type);
+        goCssMotion(el);
       } else {
         if (options.btnTarget !== null) {
           var _targetBtn = document.querySelector(options.btnTarget);
 
           _targetBtn.addEventListener(options.handle, function () {
-            motionType(el, options.type, options.loop);
+            goCssMotion(el);
           });
         } else {
           el.addEventListener(options.handle, function () {
-            motionType(el, options.type, options.loop);
+            goCssMotion(el);
           });
         }
       }
@@ -512,6 +390,8 @@ var Motion = function Motion() {
     /* 플러그인 내용 끝 */
 
   }
+
+  console.log('options.keyframesArr', options.keyframesArr);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Motion);

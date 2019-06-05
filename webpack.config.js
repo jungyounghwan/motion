@@ -12,6 +12,11 @@ module.exports = {
         libraryTarget: 'var',
         library: 'EntryPoint',
     },
+    devServer: {
+        contentBase: path.join(__dirname, '/'),
+        compress: false,
+        port: 8888
+    },
     plugins: [
         new CleanWebpackPlugin(['dist'])
     ],

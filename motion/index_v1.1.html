@@ -14,10 +14,10 @@
         table.motion-wall td {text-align:center;padding:17px 20px 18px;border-bottom:1px solid #ebebeb;color:#444;font-size:13px;line-height:24px;border-right:1px solid #f1f1f1}
         table.motion-wall td.motion-options {text-align:left;}
         .motion-box {display:inline-block;width:75px;height:75px;line-height:75px;text-align:center;color:#fff;border-radius:5px;background:#4876EF;box-shadow:0 15px 23px 0 rgba(91, 80, 255, 0.35), 0 5px 15px 0 rgba(90, 41, 179, 0.2);cursor:pointer}
-        .motion-fadein-css {opacity:0}
     </style>
 </head>
 <body>
+<p id="browserText"></p>
 
 <table class="motion-wall">
     <thead>
@@ -38,26 +38,71 @@
                 handle : 'mouseover'<br><br>
                 <button type="button" class="btn-motion-fadein-css">실행1</button>
             </td>
-            <!--<td>
-                <span class="motion-box motion-fadein">fadein</span>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th scope="row">fadein</th>
+            <td>
+                <span class="motion-box motion-fadein-css1">fadein</span>
             </td>
             <td class="motion-options">
-                handle : 'mouseover'<br><br>
-                <button type="button" class="btn-motion-fadein">실행</button>
-            </td>-->
+                mode : 'css',<br>
+                handle : 'click'<br><br>
+                <button type="button" class="btn-motion-fadein-css1">실행1</button>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th scope="row">bounce</th>
+            <td>
+                <span class="motion-box motion-bounce-css">bounce</span>
+            </td>
+            <td class="motion-options">
+                mode : 'css',<br>
+                handle : 'click'<br>
+            </td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <th scope="row">groove</th>
+            <td>
+                <span class="motion-box motion-groove-css">groove</span>
+            </td>
+            <td class="motion-options">
+                mode : 'css',<br>
+                handle : 'click'<br>
+            </td>
+            <td></td>
+            <td></td>
         </tr>
     </tbody>
 </table>
 <script src="../dist/app.js"></script>
 <script>
     EntryPoint.Motion('.motion-fadein-css', {
-        mode : 'css',
         type : 'fadein',
         handle : 'click',
         btnTarget : '.btn-motion-fadein-css',
         aniName : '.motion-fadein {animation-name: ani-fadein;}',
-        keyframes : '@keyframes ani-fadein { 0% {opacity:0} 100% {opacity:1} }',
+        keyframes : '@keyframes ani-fadein{0%{opacity:0}100%{opacity:1}}',
     });
+    EntryPoint.Motion('.motion-bounce-css', {
+        type : 'bounce',
+        handle : 'click',
+        aniName : '.motion-bounce {animation-name: ani-bounce}',
+        keyframes : '@keyframes ani-bounce{0%{transform:translate(0,0)}10%{transform:translate(0,2px)}50%{transform:translate(0,-7px)}90%{transform:translate(0,4px)}100%{transform:translate(0,0)}}',
+    })
+
+    EntryPoint.Motion('.motion-groove-css', {
+        type : 'groove',
+        handle : 'click',
+        aniName : '.motion-groove {animation-name: ani-groove}',
+        keyframes : '@keyframes ani-groove{0%{transform:skewY(0) rotate(0)}15%{transform:skewY(-10deg) rotateZ(8deg)}35%{transform:skewY(10deg) rotateZ(-8deg)}55%{transform:skewY(-6deg) rotateZ(-4deg)}85%{transform:skewY(6deg) rotateZ(4deg)}100%{transform:skewY(0) rotate(0)}}',
+    })
+
 </script>
 </body>
 </html>
