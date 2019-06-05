@@ -245,7 +245,6 @@ var Motion = function Motion() {
 
 
   var animate = function animate(el, func) {
-    var num = 0;
     var arrNum = 0;
     var start = null;
     var sec = options.time / 1000;
@@ -273,8 +272,7 @@ var Motion = function Motion() {
       func(style);
 
       if (timeFraction < sec) {
-        requestAnimationFrame(animate);
-        num++; //console.log(time, start, timeFraction, num);
+        requestAnimationFrame(animate); //console.log(time, start, timeFraction, num);
       } else {}
     });
   }; // css 모드 시작
