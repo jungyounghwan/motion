@@ -201,17 +201,73 @@ var Motion = function Motion() {
     'time': 1000,
     'aniName': null,
     'keyframes': null,
-    'keyframesArr': [],
+    //'keyframesArr' : [],
     'duration': 1000,
     'handle': 'click',
     'loop': false,
     'delay': 500,
     'styleReset': false,
     'btnTarget': null,
-    'callback': null
+    'callback': null,
+    'keyframesObj': [{
+      per: 0,
+      css: {
+        transform: {
+          scaleX: 1,
+          scaleY: 1
+        },
+        opacity: 0
+      }
+    }, {
+      per: 20,
+      css: {
+        transform: {
+          scaleX: 1.35,
+          scaleY: .1
+        },
+        opacity: 1
+      }
+    }, {
+      per: 45,
+      css: {
+        transform: {
+          scaleX: 1.35,
+          scaleY: .1
+        },
+        opacity: 0
+      }
+    }, {
+      per: 65,
+      css: {
+        transform: {
+          scaleX: .8,
+          scaleY: 1.7
+        },
+        opacity: 1
+      }
+    }, {
+      per: 80,
+      css: {
+        transform: {
+          scaleX: .6,
+          scaleY: .85
+        },
+        opacity: 0
+      }
+    }, {
+      per: 100,
+      css: {
+        transform: {
+          scaleX: 1,
+          scaleY: 1
+        },
+        opacity: 1
+      }
+    }]
     /* 기본 설정 끝 */
 
-  });
+  }); //console.log(options.arrData);
+
   /* IE 버전 체크 */
 
   function get_info_of_IE() {
@@ -254,21 +310,36 @@ var Motion = function Motion() {
       if (timeFraction > sec) timeFraction = sec;
 
       function timing(timeFraction) {
-        var perNum = Number(options.keyframesArr[0][arrNum + 1]);
-        var currNum = Number(options.keyframesArr[1][arrNum][1]);
-        var nextNum = Number(options.keyframesArr[1][arrNum + 1][1]);
-        var section = sec * (perNum / 100);
+        var currPerNum = Number(options.keyframesObj[arrNum].per);
+        var nextPerNum = Number(options.keyframesObj[arrNum + 1].per);
+        var cssObj = options.keyframesObj[arrNum];
+        var section = sec * (nextPerNum / 100); //console.log(currPerNum, nextPerNum, section);
+        //let currNum = Number(options.keyframesObj.css[arrNum][1]);
+        //let nextNum = Number(options.keyframesObj[1][arrNum + 1][1]);
+
+        var keys = Object.keys(options.keyframesObj[0].css);
+        var test = options.keyframesObj[0].css[keys[0]];
+
+        for (var i in keys) {
+          //console.log(i);
+          for (var j in keys[i]) {
+            var _test = options.keyframesObj[0].css[keys[j]];
+            console.log(_test);
+          }
+        }
+
+        console.log('test', test);
 
         if (section < timeFraction) {
           arrNum++;
-        }
+        } //return styleText;
 
-        return (nextNum - currNum) * timeFraction + currNum;
+        /*return ((nextNum - currNum) * timeFraction) + currNum;*/
+
       }
 
       ;
-      var style = 'opacity:' + timing(timeFraction / sec);
-      console.log(timeFraction, timing(timeFraction));
+      var style = timing(timeFraction / sec);
       func(style);
 
       if (timeFraction < sec) {
@@ -321,31 +392,26 @@ var Motion = function Motion() {
     css.insertRule(options.aniName, css.cssRules.length);
     css.insertRule(options.keyframes, css.cssRules.length); //console.log(css);
 
-    var keyframeArrFn = function keyframeArrFn() {
-      var keyframesCut = options.keyframes.split(/[\{\}]/g);
-      keyframesCut.splice(0, 1);
-      keyframesCut.splice(keyframesCut.length - 2, 2);
-      console.log(keyframesCut);
-      options.keyframesArr[0] = [];
-      options.keyframesArr[1] = [];
-
-      for (var i = 0; i < keyframesCut.length; i++) {
-        var num = i % 2;
-
-        if (num === 0) {
-          var extraction = keyframesCut[i].replace(/[^0-9]/g, '');
-          options.keyframesArr[num].push(extraction);
-        } else {
-          var _extraction = keyframesCut[i].split(/[\:\(\)]/g);
-
-          options.keyframesArr[num].push(_extraction);
+    /*const keyframeArrFn = () => {
+        let keyframesCut = options.keyframes.split(/[\{\}]/g);
+        keyframesCut.splice(0, 1);
+        keyframesCut.splice(keyframesCut.length - 2, 2);
+        console.log(keyframesCut)
+          options.keyframesObj[0] = [];
+        options.keyframesObj[1] = [];
+          for (let i = 0; i < keyframesCut.length; i++) {
+            let num = i%2;
+            if (num === 0) {
+                let extraction = keyframesCut[i].replace(/[^0-9]/g, '');
+                options.keyframesObj[num].push(extraction);
+            } else {
+                let extraction = keyframesCut[i].split(/[\:\(\)]/g);
+                options.keyframesObj[num].push(extraction);
+            }
         }
-      }
-
-      return options.keyframesArr;
-    };
-
-    keyframeArrFn();
+        return options.keyframesObj;
+    }
+    keyframeArrFn();*/
 
     if (browserName === 'IE' && browserVersion === 11) {
       if (options.loop === true) {
@@ -370,26 +436,31 @@ var Motion = function Motion() {
       }
     } else {
       if (options.loop === true) {
-        goCssMotion(el);
+        animate(el, function (progress) {
+          el.setAttribute('style', progress);
+        }); //goCssMotion(el);
       } else {
         if (options.btnTarget !== null) {
           var _targetBtn = document.querySelector(options.btnTarget);
 
           _targetBtn.addEventListener(options.handle, function () {
-            goCssMotion(el);
+            animate(el, function (progress) {
+              el.setAttribute('style', progress);
+            }); //goCssMotion(el);
           });
         } else {
           el.addEventListener(options.handle, function () {
-            goCssMotion(el);
+            animate(el, function (progress) {
+              el.setAttribute('style', progress);
+            }); //goCssMotion(el);
           });
         }
       }
     }
     /* 플러그인 내용 끝 */
 
-  }
+  } //console.log('options.keyframesObj', options.keyframesObj);
 
-  console.log('options.keyframesArr', options.keyframesArr);
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (Motion);
