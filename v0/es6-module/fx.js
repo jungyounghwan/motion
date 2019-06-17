@@ -1,4 +1,4 @@
-import * as easing from "OLD/es6-module/easing";
+import * as easing from "v0/es6-module/easing";
 
 export default function (element, options) {
     let cfg = {

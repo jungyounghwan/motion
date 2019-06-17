@@ -2,11 +2,14 @@
 <project version="4">
   <component name="Encoding" addBOMForNewFiles="with NO BOM">
     <file url="file://$PROJECT_DIR$/.gitignore" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/lib/easing" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/helper" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/motion" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/lib/motion/css/css-motion.css" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/motion" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/v1/easing" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/v1/helper" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/v1/motion" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/v1/motion/css/css-motion.css" charset="EUC-KR" />
     <file url="file://$PROJECT_DIR$/webpack.config.js" charset="UTF-8" />
     <file url="PROJECT" charset="EUC-KR" />
   </component>
